@@ -77,6 +77,43 @@ def pacmans():
     file.close()
     log("Pacman успешно настроен.", "c")
 
+def optimizate():
+    log("Установка пакетов для оптимизации системы. [Шаг 1]", "i")
+    error = KDE(["git clone https://aur.archlinux.org/ananicy.git", "cd ananicy && makepkg -sric", "sudo systemctl enable --now ananicy"])
+    if error == 0:
+        log("[Шаг 1]: Успешно", "c")
+    else:
+        log("[Шаг 1]: Произошла ошибка", "e")
+    log("Установка пакетов для оптимизации системы. [Шаг 2]", "i")
+    res = run("sudo pacman -S haveged")
+    if res == 0:
+        log("Пакет оптимизации успешно установлен. [Шаг 2]", "c")
+        log("Запуск службы.", "i")
+        res = run("sudo systemctl enable haveged")
+        if res == 0:
+            log("Служба оптимизации успешно запущена. [Шаг 2]", "c")
+        else:
+            log("Служба оптимизации не запущена. [Шаг 2]", "e")
+    else:
+        log("Пакет оптимизации не установлен. [Шаг 2]", "e")
+    
+    log("Установка пакетов для оптимизации системы. [Шаг 3]", "i")
+    res = run("sudo pacman -S cpupower")
+    if res == 0:
+        log("Пакет оптимизации успешно установлен. [Шаг 2]", "c")
+        log("Запуск службы.", "i")
+        run("echo governor=\"performance\" >> /etc/default/cpupower")
+        run("sudo cpupower frequency-set -g performance")
+        res = run("sudo systemctl enable cpupower")
+        if res == 0:
+            log("Служба оптимизации успешно запущена. [Шаг 2]", "c")
+        else:
+            log("Служба оптимизации не запущена. [Шаг 2]", "e")
+    else:
+        log("Пакет оптимизации не установлен. [Шаг 2]", "e")
+    
+    
+
 log("Модули импортированы.", "c")
 pacmans()
 log("Обновление системы..", "i")
@@ -96,4 +133,5 @@ else:
 Gchrome()
 teleinstall()
 setting_pip()
+optimizate()
 log("Установка ПО завершена.", "c")
