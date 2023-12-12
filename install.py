@@ -66,7 +66,19 @@ def setting_pip():
     file.close()
     log("Pip успешно настроен", "c")
 
+def pacmans():
+    log("Настройка Pacman.", "i")
+    file = open("/etc/pacman.conf", "r")
+    info = file.read()
+    file.close()
+    info = info.replace("#ParallelDownloads = 5", "ParallelDownloads = 10")
+    file = open("etc/pacman.conf", "w")
+    file.write(info)
+    file.close()
+    log("Pacman успешно настроен.", "c")
+
 log("Модули импортированы.", "c")
+pacmans()
 log("Обновление системы..", "i")
 res = run("sudo pacman -Syu")
 if res == 0:
@@ -84,5 +96,4 @@ else:
 Gchrome()
 teleinstall()
 setting_pip()
-log("Установка ПО завершена", "i")
-exit(0)
+log("Установка ПО завершена.", "c")
