@@ -84,3 +84,5 @@ else:
 Gchrome()
 teleinstall()
 setting_pip()
+log("Установка ПО завершена", "i")
+exit(0)
