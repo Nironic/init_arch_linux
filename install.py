@@ -61,7 +61,7 @@ def setting_pip():
     log("Настройка pip.", "i")
     user = os.getlogin()
     run("mkdir /home/" + str(user) + "/pip")
-    file = open("/home/" + user + "/pip/pip.conf", "w")
+    file = open("/home/" + user + ".config/pip/pip.conf", "w")
     file.write("[global]\nbreak-system-packages = true")
     file.close()
     log("Pip успешно настроен", "c")
@@ -102,7 +102,7 @@ def optimizate():
     if res == 0:
         log("Пакет оптимизации успешно установлен. [Шаг 2]", "c")
         log("Запуск службы.", "i")
-        run("echo governor=\"performance\" >> /etc/default/cpupower")
+        #run("echo governor=\"performance\" >> /etc/default/cpupower")
         run("sudo cpupower frequency-set -g performance")
         res = run("sudo systemctl enable cpupower")
         if res == 0:
